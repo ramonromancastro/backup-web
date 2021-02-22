@@ -18,9 +18,9 @@ This script autodetect database configuration for:
 
  OUTPUT:
     DESTINATION/NAME.DATE.www.tar.gz
-    DESTINATION/NAME.DATE.mysql.ddl.sql
-    DESTINATION/NAME.DATE.mysql.ddl.sql
     DESTINATION/NAME.DATE.mysql.dcl.sql
+    DESTINATION/NAME.DATE.mysql.ddl.sql
+    DESTINATION/NAME.DATE.mysql.dml.sql
    
  EXAMPLES:
     backup-web.sh -n wordpress -s /var/www/html/wordpress -d /tmp/dump
