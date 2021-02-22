@@ -71,9 +71,7 @@ usage(){
     $0 [OPTIONS] - Dump web application and its database information
 
     This script autodetect database configuration for:
-      Drupal 6.x
-      Drupal 7.x
-      Drupal 8.x
+      Drupal 6.x/7.x/8.x
       WordPress 3.x/4.x/5.x
 
    OPTIONS:
