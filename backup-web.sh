@@ -21,7 +21,7 @@
 # CONSTANTES
 #
 
-APP_VERSION="0.6"
+APP_VERSION="0.7"
 APP_HR="****************************************"
 
 declare -A colors=( [disable]="\e[90m" [debug]="\e[95m" [info]="\e[97m" [ok]="\e[32m" [warning]="\e[93m" [error]="\e[91m" [normal]="\e[39m" [detail]="\e[36m")
@@ -249,7 +249,13 @@ app_dumpDbDml() {
 }
 
 app_dumpDbDcl() {
-	mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "select concat('\'',User,'\'@\'',Host,'\'') as User from mysql.user" 2> /dev/null | sort | while read u;  do mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "show grants for $u" 2> /dev/null | sed 's/$/;/'; done | grep "ON \`$APP_DBNAME\`" > $APP_DB_DCL_FILE
+	MYSQL_VERSION=$(mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "select @@version")
+	if [ "5.7" == "`echo -e "5.7\n$MYSQL_VERSION" | sort -V | head -n1`" ]; then
+		mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "select concat('\'',User,'\'@\'',Host,'\'') as User from mysql.user" 2> /dev/null | sort | while read u;  do mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "show grants for $u" 2> /dev/null | sed 's/$/;/'; done | grep "ON \`$APP_DBNAME\`" | sed -e "s/^.*\sTO\s\('[^']*'@'[^']*'\).*/\1/g" | sort -u | while read v;  do mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "SHOW CREATE USER $v"; done  > $APP_DB_DCL_FILE
+		mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "select concat('\'',User,'\'@\'',Host,'\'') as User from mysql.user" 2> /dev/null | sort | while read u;  do mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "show grants for $u" 2> /dev/null | sed 's/$/;/'; done | grep "ON \`$APP_DBNAME\`" >> $APP_DB_DCL_FILE
+	else
+		mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "select concat('\'',User,'\'@\'',Host,'\'') as User from mysql.user" 2> /dev/null | sort | while read u;  do mysql -h$APP_DBHOST -u$APP_DBUSER -p''$APP_DBPASSWORD'' --silent --skip-column-names --execute "show grants for $u" 2> /dev/null | sed 's/$/;/'; done | grep "ON \`$APP_DBNAME\`" > $APP_DB_DCL_FILE
+	fi
 }
 
 #
