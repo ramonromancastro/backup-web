@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8] - 2022-01-28
+### Add
+- Add support for WordPress 5.x backups.
+
+
 ## [0.6] - 2021-02-22
 ### Add
 - Initial release.
