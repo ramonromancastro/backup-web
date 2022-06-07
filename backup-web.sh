@@ -21,7 +21,7 @@
 # CONSTANTES
 #
 
-APP_VERSION="0.9"
+APP_VERSION="0.10"
 APP_HR="****************************************"
 
 declare -A colors=( [disable]="\e[90m" [debug]="\e[95m" [info]="\e[97m" [ok]="\e[32m" [warning]="\e[93m" [error]="\e[91m" [normal]="\e[39m" [detail]="\e[36m")
@@ -237,7 +237,10 @@ app_confirmDump() {
 }
 
 app_dumpWebApp() {
-	tar -cvzh -f "$APP_WEB_FILE" "$APP_SOURCE_PATH" > /dev/null 2>&1
+        parentname=$(dirname "$(realpath "$APP_SOURCE_PATH")")
+        dirname=$(basename "$(realpath "$APP_SOURCE_PATH")")
+        # tar -cvzh -f "$APP_WEB_FILE" "$APP_SOURCE_PATH" > /dev/null 2>&1
+        tar -cvzh -f "$APP_WEB_FILE" -C "$parentname" "$dirname"> /dev/null
 }
 
 app_dumpDbDdl() {
