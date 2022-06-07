@@ -21,7 +21,7 @@
 # CONSTANTES
 #
 
-APP_VERSION="0.8"
+APP_VERSION="0.9"
 APP_HR="****************************************"
 
 declare -A colors=( [disable]="\e[90m" [debug]="\e[95m" [info]="\e[97m" [ok]="\e[32m" [warning]="\e[93m" [error]="\e[91m" [normal]="\e[39m" [detail]="\e[36m")
@@ -72,7 +72,7 @@ usage(){
 
     This script autodetect database configuration for:
       Drupal 6.x/7.x/8.x
-      WordPress 3.x/4.x/5.x
+      WordPress 3.x/4.x/5.x/6.x
 
    OPTIONS:
       -n NAME         Dump name. This dump name is appended to all dump files
@@ -129,8 +129,8 @@ app_detectEngineAndDbParameters() {
 	msg "info" "Recopilando información de la aplicación"
 	APP_WEBENGINE=""
 	# WordPress
-	if $(grep -q "^\s*\$wp_version\s*=\s*'[345]" "${APP_SOURCE_PATH}/wp-includes/version.php" > /dev/null 2>&1); then
-		APP_WEBENGINE="WordPress 3.x/4.x/5.x"
+	if $(grep -q "^\s*\$wp_version\s*=\s*'[3456]" "${APP_SOURCE_PATH}/wp-includes/version.php" > /dev/null 2>&1); then
+		APP_WEBENGINE="WordPress 3.x/4.x/5.x/6.x"
 		if [ -f "${APP_SOURCE_PATH}/wp-config.php" ]; then
 			APP_DBNAME=$(grep "^[\t ]*define.*'DB_NAME'" ${APP_SOURCE_PATH}/wp-config.php         | head -1 | awk -F ',' '{ value=gensub(/[^\047]*\047([^\047]+).*/,"\\1","g",$2); print value }')
 			APP_DBUSER=$(grep "^[\t ]*define.*'DB_USER'" ${APP_SOURCE_PATH}/wp-config.php         | head -1 | awk -F ',' '{ value=gensub(/[^\047]*\047([^\047]+).*/,"\\1","g",$2); print value }')
