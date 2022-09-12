@@ -6,7 +6,7 @@ backup-web.sh [OPTIONS] - Dump web application and its database information
 
 This script autodetect database configuration for:
   Drupal 6.x/7.x/8.x
-  WordPress 3.x/4.x/5.x
+  WordPress 3.x-6.x
 
  OPTIONS:
     -n NAME         Dump name. This dump name is appended to all dump files
