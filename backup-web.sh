@@ -72,7 +72,7 @@ usage(){
 
     This script autodetect database configuration for:
       Drupal 6.x/7.x/8.x
-      WordPress 3.x/4.x/5.x/6.x
+      WordPress 3.x-6.x
 
    OPTIONS:
       -n NAME         Dump name. This dump name is appended to all dump files
